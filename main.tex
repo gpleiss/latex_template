@@ -1,0 +1,232 @@
+\documentclass{article} % For LaTeX2e
+\PassOptionsToPackage{numbers,sort&compress}{natbib}
+
+
+% Conference options
+\newif\ificml
+\newif\ifneurips
+\newif\ificlr
+\newif\ifaistats
+\icmlfalse
+\neuripsfalse
+\iclrfalse
+\aistatsfalse
+
+
+% Choose conference option
+\icmltrue \usepackage[accepted]{icml2023}
+%\neuripstrue \usepackage[preprint]{neurips_2023}
+%\iclrtrue \usepackage{iclr2024_conference,times} \iclrfinalcopy
+%\aistatstrue \usepackage{aistats2024}
+
+
+
+% Extra packages
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{amsmath,amsfonts,amsthm,amssymb}       % blackboard math symbols
+\usepackage{bbm}  % Good 1-indicator symbol
+\usepackage[capitalize]{cleveref}  % for better citations
+\usepackage{mathtools}  % for underbracket
+\usepackage{algorithm}
+\usepackage[algo2e,ruled]{algorithm2e}  % algorithms
+\usepackage{multirow}
+\usepackage{booktabs}  % for table toprule, etc.
+\usepackage{makecell}  % thead, other vertical alignment options
+\usepackage{cancel}  % latex is cancelled
+\usepackage{environ}  % Environment
+\usepackage{color}
+\usepackage[inline]{enumitem}
+\ifaistats
+  \usepackage[authoryear,sort]{natbib}
+\fi
+
+
+% Theorems, observations, etc.
+\newtheorem{observation}{Observation}
+\newtheorem{definition}{Definition}
+\newtheorem{defremark}{Remark}[definition]
+\newtheorem{theorem}{Theorem}
+\newtheorem{assumption}{Assumption}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemmalary}{Corollary}[lemma]
+
+
+% Autoref
+\renewcommand{\sectionautorefname}{Section}
+\renewcommand{\algorithmautorefname}{Algorithm}
+\newcommand{\definitionautorefname}{Definition}
+\newcommand{\defremarkautorefname}{Remark}
+\newcommand{\thmautorefname}{Theorem}
+\newcommand{\lemmaautorefname}{Lemma}
+\newcommand{\observationautorefname}{Observation}
+\newcommand{\propositionautorefname}{Proposition}
+\newcommand{\corollaryautorefname}{Corollary}
+\newcommand{\lemmallaryautorefname}{Corollary}
+\crefname{equation}{Eq.}{Eqs.}
+\crefname{figure}{Fig.}{Figs.}
+\crefname{section}{Sec.}{Secs.}
+\crefname{subsection}{Sec.}{Secs.}
+\crefname{appendix}{Appx.}{Appx.}
+\crefname{algocf}{Alg.}{Algs.}
+\crefname{observation}{Obs.}{Obs.}
+\crefname{definition}{Def.}{Defs.}
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{Prop.}{Props.}
+
+
+% Custom comments
+\newif\ifcomments
+%\commentsfalse
+\commentstrue
+\ifcomments\newcommand{\comments}[1]{#1}\else\newcommand{\comments}[1]{}\fi
+\definecolor{clrgp}{rgb}{.9,0,.9}
+\newcommand{\gp}[1]{\comments{\textcolor{clrgp}{[GP: #1]}}}
+\newcommand{\ta}[1]{\comments{\textcolor{blue}{[TA: #1]}}}
+\newcommand{\jpc}[1]{\textcolor{red}{[JPC: #1]}}
+
+
+%%% Restatable therorems: # https://tex.stackexchange.com/questions/356636/restate-a-theorem-before-stating-it
+% First - context variable for when we are restating
+\newif\ifrestating
+\restatingfalse
+% Restatable environment
+\NewEnviron{restatable}[3]{%
+  % #1 (mandatory): type
+  % #2 (mandatory): a label
+  % #3 (mandatory): description
+  \expandafter\xdef\csname restatethis@#2\endcsname{%
+    \unexpanded\expandafter{\BODY}%
+  }%
+  \begin{#1}[#3]
+    \label{#2}
+    \BODY
+  \end{#1}%
+  \newtheorem*{#2}{\Cref{#2} (Restated)}%
+}
+% Command to restate
+\newcommand{\restate}[1]{%
+  \restatingtrue
+  \begin{#1}\csname restatethis@#1\endcsname\end{#1}%
+  \restatingfalse
+}
+% Equation and label for restatable environment
+\newenvironment{restatableequation}{%
+  \ifrestating
+    \begin{equation*}
+  \else
+    \begin{equation}
+  \fi
+}{%
+  \ifrestating
+    \end{equation*}
+  \else
+    \end{equation}
+  \fi
+}
+\newcommand{\restatablelabel}[1]{%
+  \ifrestating
+    \tag{\ref{#1}, restated}
+  \else
+    \label{#1}
+  \fi
+}
+
+
+% Macros
+\input{math_commands}
+
+
+% Document info
+\newcommand\titl{Paper Template}
+\newcommand\authr{Geoff Pleiss}
+%\newcommand\authr{
+  %Antiquus S.~Hippocampus, Natalia Cerebro \& Amelie P. Amygdale \thanks{
+    %Use footnote for providing further information about author.
+  %}
+  %Department of Computer Science\\
+  %Cranberry-Lemon University\\
+  %Pittsburgh, PA 15213, USA \\
+  %\texttt{\{hippo,brain,jen\}@cs.cranberry-lemon.edu} \\
+  %\And
+  %Ji Q. Ren \& Yevgeny LeNet \\
+  %Department of Computational Neuroscience \\
+  %University of the Witwatersrand \\
+  %Joburg, South Africa \\
+  %\texttt{\{robot,net\}@wits.ac.za} \\
+  %\AND
+  %Coauthor \\
+  %Affiliation \\
+  %Address \\
+  %\texttt{email}
+%}
+\title{\titl}
+\author{\authr}
+
+% Document info for ICML
+\ificml
+  \icmltitlerunning{\titl}
+\fi
+
+
+\begin{document}
+
+\ificml
+  \twocolumn[
+    \icmltitle{\titl}
+    \icmlsetsymbol{equal}{*}
+    \begin{icmlauthorlist}
+      \icmlauthor{Firstname1 Lastname1}{equal,yyy}
+      \icmlauthor{Firstname2 Lastname2}{equal,yyy,comp}
+      \icmlauthor{Firstname3 Lastname3}{comp}
+    \end{icmlauthorlist}
+    \icmlaffiliation{yyy}{Department of XXX, University of YYY, Location, Country}
+    \icmlaffiliation{comp}{Company Name, Location, Country}
+    \icmlcorrespondingauthor{Firstname1 Lastname1}{first1.last1@xxx.edu}
+    \icmlkeywords{Machine Learning, ICML}
+    \vskip 0.3in
+  ]
+  \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
+\else
+  \ifaistats
+    \twocolumn[
+      \aistatstitle{\titl}
+      \aistatsauthor{\authr}
+      \aistatsaddress{ Institution 1 \And  Institution 2 \And Institution 3 }
+    ]
+  \else
+    \maketitle
+  \fi
+\fi
+
+\begin{abstract}
+\end{abstract}
+
+\input sections/setup
+\input sections/method
+\input sections/related_work
+
+
+{
+	\small
+  \ificml
+    \bibliographystyle{icml2023}
+  \else
+    \ificlr
+      \bibliographystyle{iclr2024_conference}
+    \else
+      \bibliographystyle{abbrvnat}
+    \fi
+  \fi
+  \bibliography{citations}
+}
+
+\clearpage
+\appendix
+
+\input appendix/proofs.tex
+
+\end{document}
+
