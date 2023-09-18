@@ -223,7 +223,16 @@
   \bibliography{citations}
 }
 
+% Reset to single column, if necessary
 \clearpage
+\ificml
+  \onecolumn
+\else
+  \ifaistats
+    \onecolumn
+  \fi
+\fi
+
 \appendix
 
 \input appendix/proofs.tex
