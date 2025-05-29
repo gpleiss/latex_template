@@ -1,3 +1,6 @@
+# no vscode
+.vscode
+
 # Don't include main pdf
 main.pdf
 main_arxiv.pdf
