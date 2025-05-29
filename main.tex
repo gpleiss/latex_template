@@ -1,25 +1,94 @@
-\documentclass{article} % For LaTeX2e
-\PassOptionsToPackage{numbers,sort&compress}{natbib}
-
-
 % Conference options
-\newif\ificml
-\newif\ifneurips
 \newif\ificlr
 \newif\ifaistats
-\icmlfalse
-\neuripsfalse
+\newif\ificml
+\newif\ifneurips
 \iclrfalse
 \aistatsfalse
+\icmlfalse
+\neuripsfalse
+
+% Choose 1 option
+% \iclrtrue
+% \aistatstrue
+% \icmltrue
+\neuripstrue
+
+% Custom comments
+\newif\ifcomments
+%\commentsfalse
+\commentstrue
+\ifcomments\newcommand{\comments}[1]{#1}\else\newcommand{\comments}[1]{}\fi
+\newcommand{\gp}[1]{\comments{\textcolor{red}{[GP: #1]}}}
 
 
-% Choose conference option
-\icmltrue \usepackage[accepted]{icml2025}
-%\neuripstrue \usepackage[preprint]{neurips_2025}
-%\iclrtrue \usepackage{iclr2025_conference,times} \iclrfinalcopy
-%\aistatstrue \usepackage{aistats2025}
+% Document info
+\title{Paper Template}
+\author{Geoff Pleiss}
+% \author{
+%   % Antiquus S.~Hippocampus, Natalia Cerebro \& Amelie P. Amygdale \thanks{ Use footnote for providing further information
+%   % about author (webpage, alternative address)---\emph{not} for acknowledging
+%   % funding agencies.  Funding acknowledgements go at the end of the paper.} \\
+%   % Department of Computer Science\\
+%   % Cranberry-Lemon University\\
+%   % Pittsburgh, PA 15213, USA \\
+%   % \texttt{\{hippo,brain,jen\}@cs.cranberry-lemon.edu} \\
+%   % \And
+%   % Ji Q. Ren \& Yevgeny LeNet \\
+%   % Department of Computational Neuroscience \\
+%   % University of the Witwatersrand \\
+%   % Joburg, South Africa \\
+%   % \texttt{\{robot,net\}@wits.ac.za} \\
+%   % \AND
+%   Geoff Pleiss \\
+%   University of British Columbia, Vector Institute \\
+%   \texttt{geoff.pleiss@stat.ubc.ca}
+% }
 
 
+
+% Check that we've only loaded one package
+\newcount\confcount
+\confcount=0
+\ificlr
+  \advance\confcount by 1
+\fi
+\ifaistats
+  \advance\confcount by 1
+\fi
+\ificml
+  \advance\confcount by 1
+\fi
+\ifneurips
+  \advance\confcount by 1
+\fi
+\ifnum\confcount=1
+  % Exactly one conference is selected – OK
+\else
+  \errmessage{Exactly one of ificlr, ifaistats, ificml, or ifneurips must be true.}
+\fi
+
+% Document class + base package
+\ificlr
+  \documentclass{article}
+  \usepackage{iclr2025_conference,times}
+  \iclrfinalcopy
+\fi
+\ifaistats
+  \documentclass[twoside]{article}
+  \usepackage{aistats2025}
+\fi
+\ificml
+  \documentclass{article}
+  % \usepackage{icml2025}
+  \usepackage[accepted]{icml2025}
+\fi
+\ifneurips
+  \documentclass{article}
+  % \usepackage{neurips_2025}
+  \usepackage[preprint]{neurips_2025}
+  % \usepackage[final]{neurips_2025}
+\fi
 
 % Extra packages
 \usepackage{hyperref}
@@ -77,15 +146,6 @@
 \crefname{proposition}{Prop.}{Props.}
 
 
-% Custom comments
-\newif\ifcomments
-%\commentsfalse
-\commentstrue
-\ifcomments\newcommand{\comments}[1]{#1}\else\newcommand{\comments}[1]{}\fi
-\definecolor{clrgp}{rgb}{.9,0,.9}
-\newcommand{\gp}[1]{\comments{\textcolor{clrgp}{[GP: #1]}}}
-
-
 %%% Restatable therorems: # https://tex.stackexchange.com/questions/356636/restate-a-theorem-before-stating-it
 % First - context variable for when we are restating
 \newif\ifrestating
@@ -136,68 +196,45 @@
 % Macros
 \input{math_commands}
 
-
-% Document info
-\newcommand\titl{Paper Template}
-\newcommand\authr{Geoff Pleiss}
-%\newcommand\authr{
-  %Antiquus S.~Hippocampus, Natalia Cerebro \& Amelie P. Amygdale \thanks{
-    %Use footnote for providing further information about author.
-  %}
-  %Department of Computer Science\\
-  %Cranberry-Lemon University\\
-  %Pittsburgh, PA 15213, USA \\
-  %\texttt{\{hippo,brain,jen\}@cs.cranberry-lemon.edu} \\
-  %\And
-  %Ji Q. Ren \& Yevgeny LeNet \\
-  %Department of Computational Neuroscience \\
-  %University of the Witwatersrand \\
-  %Joburg, South Africa \\
-  %\texttt{\{robot,net\}@wits.ac.za} \\
-  %\AND
-  %Coauthor \\
-  %Affiliation \\
-  %Address \\
-  %\texttt{email}
-%}
-\title{\titl}
-\author{\authr}
-
-% Document info for ICML
-\ificml
-  \icmltitlerunning{\titl}
-\fi
-
-
 \begin{document}
 
-\ificml
+\ifaistats
+  \makeatletter
   \twocolumn[
-    \icmltitle{\titl}
+    \aistatstitle{\@title}
+    \aistatsauthor{\@author}
+    \aistatsaddress{University of British Columbia, Vector Institute}
+  ]
+  \makeatother
+\fi
+\ificlr
+  \maketitle
+\fi
+\ificml
+  \makeatletter
+  \twocolumn[
+    \icmltitle{\@title}
     \icmlsetsymbol{equal}{*}
     \begin{icmlauthorlist}
-      \icmlauthor{Firstname1 Lastname1}{equal,yyy}
-      \icmlauthor{Firstname2 Lastname2}{equal,yyy,comp}
-      \icmlauthor{Firstname3 Lastname3}{comp}
+      %\icmlauthor{Firstname1 Lastname1}{equal,yyy}
+      %\icmlauthor{Firstname2 Lastname2}{equal,yyy,comp}
+      \icmlauthor{Geoff Pleiss}{ubc,vector}
     \end{icmlauthorlist}
-    \icmlaffiliation{yyy}{Department of XXX, University of YYY, Location, Country}
-    \icmlaffiliation{comp}{Company Name, Location, Country}
-    \icmlcorrespondingauthor{Firstname1 Lastname1}{first1.last1@xxx.edu}
-    \icmlkeywords{Machine Learning, ICML}
+    \icmlaffiliation{ubc}{University of British Columbia}
+    \icmlaffiliation{vector}{Vector Institute}
+    %\icmlcorrespondingauthor{Firstname1 Lastname1}{first1.last1@xxx.edu}
+    \icmlkeywords{Machine Learning}
     \vskip 0.3in
   ]
   \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
-\else
-  \ifaistats
-    \twocolumn[
-      \aistatstitle{\titl}
-      \aistatsauthor{\authr}
-      \aistatsaddress{ Institution 1 \And  Institution 2 \And Institution 3 }
-    ]
-  \else
-    \maketitle
-  \fi
+  \makeatother
 \fi
+\ifneurips
+  \maketitle
+\fi
+
+
+
 
 \begin{abstract}
 \end{abstract}
@@ -207,19 +244,29 @@
 % \input sections/related_work
 
 
-{
-	\small
-  \ificml
-    \bibliographystyle{icml2025}
-  \else
-    \ificlr
-      \bibliographystyle{iclr2025_conference}
-    \else
-      \bibliographystyle{abbrvnat}
-    \fi
-  \fi
+
+
+
+
+\ificlr
+  \bibliographystyle{iclr2025_conference}
   \bibliography{citations}
-}
+\fi
+\ifaistats
+  \bibliographystyle{abbrvnat}
+  \bibliography{citations}
+\fi
+\ificml
+  \bibliographystyle{icml2025}
+  \bibliography{citations}
+\fi
+\ifneurips
+  {
+    \small
+    \bibliographystyle{abbrvnat}
+    \bibliography{citations}
+  }
+\fi
 
 % Reset to single column, if necessary
 \clearpage
