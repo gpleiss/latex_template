@@ -1,5 +1,7 @@
-% File:  aistats2024.sty
+% File:  aistats2025.sty
 
+% Modified by Javier Burroni, 2024 (late): adapted to 2025; stop compilation if running headings are too long. 
+% Modified by Javier Burroni, 2024: volume number. 
 % Modified by Yingzhen Li, 2023: changed year and volume number. 
 %
 % Modified by Francisco Ruiz, 2022: changed venue, year, and volume number.
@@ -47,12 +49,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Content to be changed from year to year
 
-\ProvidesPackage{aistats2024}[2023/08/23 AISTATS2024 submission/camera-ready style file]
+\ProvidesPackage{aistats2025}[2024/08/18 AISTATS2025 submission/camera-ready style file]
 
-\newcommand{\@conferenceordinal}{27\textsuperscript{th}}
-\newcommand{\@conferenceyear}{2024}
-\newcommand{\@conferencelocation}{Valencia, Spain}
-\newcommand{\@conferencevolume}{TBD}  % To be assigned by JMLR
+\newcommand{\@conferenceordinal}{28\textsuperscript{th}}
+\newcommand{\@conferenceyear}{2025}
+\newcommand{\@conferencelocation}{Mai Khao, Thailand}
+\newcommand{\@conferencevolume}{258}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -199,6 +201,7 @@
            \typeout{*******************************************************}%
            \typeout{}%
            \typeout{}%
+           \PackageError{Document}{Running heading title exceeds size limitations. Provide a shorter form for the running head using \string\runningtitle{...}.}{Provide a shorter form for the running head using \string\runningtitle{...}.}
         \fi
      }
   \else
@@ -267,6 +270,7 @@
            \typeout{*******************************************************}%
            \typeout{}%
            \typeout{}%
+            \PackageError{Document}{Running heading author exceeds size limitations. Provide a shorter form for the running head using \string\runningauthor{...}.}{Provide a shorter form for the running head using \string\runningauthor{...}.}
       \fi
      }
   \else
